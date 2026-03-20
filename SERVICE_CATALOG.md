@@ -25,7 +25,8 @@
 
 | Container | Port | Build Context | GitHub Repo |
 |-----------|------|---------------|-------------|
-| `ide_service` | 8080 | `/home/deploy/RG_IDE_Platform` | [`RG_IDE_Platform`](https://github.com/DevSwat-ResonantGenesis/RG_IDE_Platform) |
+| `ide_platform_service` | 8080 | `/home/deploy/RG_IDE_Platform` | [`RG_IDE_Platform`](https://github.com/DevSwat-ResonantGenesis/RG_IDE_Platform) |
+| `ide_agent_service` | 8000 | `/home/deploy/RG_Axtention_IDE` | [`RG_Axtention_IDE`](https://github.com/DevSwat-ResonantGenesis/RG_Axtention_IDE) |
 
 ### Rabbit (Community Platform)
 

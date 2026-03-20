@@ -33,7 +33,8 @@ sudo docker logs -f --tail 50 <container_name>
 | `RG_AST_analysis` | `rg_ast_analysis` | `rg_ast_analysis` |
 | `RG_Internal_Invarients_SIM` | `rg_internal_invarients_sim` | `rg_internal_invarients_sim` |
 | `RG_Users_Invarients_SIM` | `rg_users_invarients_sim` | `rg_users_invarients_sim` |
-| `RG_IDE_Platform` | `ide_service` | `ide_service` |
+| `RG_IDE_Platform` | `ide_platform_service` | `ide_platform_service` |
+| `RG_Axtention_IDE` | `ide_agent_service` | `ide_agent_service` |
 | `RG_Rabbit` (api) | `rabbit_api_service` | `rabbit_api_service` |
 
 ## 2. Deploy a Monolith Service
