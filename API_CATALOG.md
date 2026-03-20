@@ -1,9 +1,9 @@
 # API Catalog
 
-> Complete backend API route inventory across all 30 services (as of 2026-03-20).
+> Complete backend API route inventory across all 33 services (as of 2026-03-20).
 >
-> **Total: ~750 unique endpoints** across 30 microservices.
-> **Frontend coverage: ~45 of 106 API files migrated** to RGF_* micro-apps. ~61 still need migration.
+> **Total: ~820 unique endpoints** across 33 microservices (37 containers).
+> **Frontend coverage: ~90 of 106 API files migrated** to RGF_* micro-apps. ~16 low-priority remain.
 
 ## Route Counts by Service
 
@@ -15,19 +15,19 @@
 | Chat | `RG_Chat` | 115 | `/resonant-chat/*`, `/chat/*`, `/message/*` | ✅ `RGF_Resonant_Chat/chat.ts`, `resonantChat.ts`, `llm.ts` |
 | Memory | `RG_Memory` | 38 | `/rag/*` | ⚠️ Partial — `RGF_Hash_Sphere/memory.ts` |
 | Agent Engine | `RG_Agent_Engine` | 337 | `/agents/*`, `/agent-teams/*` | ⚠️ Partial — `RGF_Agents/agents.ts`, `agentApi.ts`, `agentTeams.ts` |
-| User Service | `RG_User_Service` | 8 | `/user/*` | ❌ Missing — needs `RGF_Settings/users.ts` |
+| User Service | `RG_User_Service` | 8 | `/user/*` | ✅ `RGF_Settings/settings.ts`, `userPreferences.ts` |
 | LLM Service | `RG_LLM_Service` | 12 | `/llm/*` | ✅ `RGF_Resonant_Chat/llmProviders.ts` |
-| Cognitive | `RG_Cognitive` | 12 | `/cognitive/*` | ❌ Missing — needs `RGF_Network/cognitive.ts` |
-| Workflow | `RG_Workflow` | 17 | `/workflow/*` | ❌ Missing — needs `RGF_Network/workflow.ts` |
+| Cognitive | `RG_Cognitive` | 12 | `/cognitive/*` | ✅ `RGF_Network/cognitive.ts` |
+| Workflow | `RG_Workflow` | 17 | `/workflow/*` | ✅ `RGF_Network/workflow.ts`, `workflows.ts`, `workflowService.ts` |
 | ML Service | `RG_ML_Service` | 33 | `/ml/*` | ✅ `RGF_Admin/ml.ts` |
-| Storage | `RG_Storage` | 13 | `/storage/*` | ❌ Missing — needs shared `storage.ts` |
+| Storage | `RG_Storage` | 13 | `/storage/*` | ⚠️ Low-pri — needs `storage.ts` migration |
 | Ed Service | `RG_Ed_Service` | 25 | `/ed/*` | ❌ No frontend API file |
-| Marketplace | `RG_Marketplace` | 17 | `/marketplace/*` | ⚠️ Partial — `RGF_Marketplace/marketplace.ts` |
-| Notifications | `RG_Notifications` | 12 | `/notifications/*` | ❌ Missing — needs `RGF_Shell/notifications.ts` |
+| Marketplace | `RG_Marketplace` | 17 | `/marketplace/*` | ✅ `RGF_Marketplace/marketplace.ts`, `nft.ts`, `marketplaceComplete.ts` |
+| Notifications | `RG_Notifications` | 12 | `/notifications/*` | ✅ `RGF_Shell/notifications.ts` |
 | Crypto | `RG_Crypto` | 23 | `/crypto/*` | ✅ `RGF_Marketplace/crypto.ts` |
 | User Memory | `RG_User_Memory` | 15 | `/user-memory/*` | ❌ No frontend API file |
 | Blockchain | `RG_Blockchain` | 499 | `/blockchain/*` | ⚠️ Partial — `RGF_Network/blockchain.ts`, `advancedBlockchain.ts` |
-| Build Service | `RG_Build_Service` | 9 | `/api/v1/project-builder/*` | ❌ Missing — needs `RGF_Code_Tools/build.ts` |
+| Build Service | `RG_Build_Service` | 9 | `/api/v1/project-builder/*` | ✅ `RGF_Code_Tools/build.ts`, `projectBuilder.ts` |
 | Code Execution | `RG_Code_Execution` | 8 | `/code-execution/*` | ❌ No frontend API file |
 | Sandbox Runner | `RG_Sandbox_Runner` | 2 | `/sandbox/*` | ❌ No frontend API file |
 | V8 API | `RG_V8_API` | 0 (JS) | `/v8/*` | ❌ No frontend API file |
@@ -40,6 +40,8 @@
 | User Invariants | `RG_Users_Invarients_SIM` | 25 | `/state-physics/*` | ✅ `RGF_Hash_Sphere/economicState.ts` |
 | IDE Platform | `RG_IDE_Platform` | 57 | `/ide/*` | ⚠️ Partial — `RGF_Admin/ideLoc.ts` |
 | Blockchain Node | `RG_Blockchain_Node` | 0 (JS) | `:8081` | ❌ No frontend API file |
+| Rabbit (5 containers) | `RG_Rabbit` | 23 | `/rabbit/*`, `/api/v1/rabbit/*` | ✅ `RGF_Rabbit/client.ts` |
+| Cascade Control Plane | `RG_Platform_Orchestration` | 47 | `/cascade/*` | ⚠️ Internal — `RGF_Admin/admin.ts` |
 
 ## RG_Auth — 111 Routes
 
@@ -554,6 +556,82 @@ State physics simulation, identity/memory/economic layers, entropy, galaxy simul
 ### RG_Public-Guest-Agentic_Chat — 3 Routes
 `GET /health`, `GET /public/agentic-chat/health`, `POST /public/agentic-chat/stream`
 
+### RG_Rabbit — 23 Routes (5 containers)
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/health` | Health check (×5 services) |
+| GET | `/rabbit/health` | Rabbit health |
+| GET | `/communities` | List communities |
+| POST | `/communities` | Create community |
+| GET | `/communities/{slug}` | Get community |
+| GET | `/communities/{slug}/posts` | Community posts |
+| GET | `/posts` | List posts |
+| POST | `/posts` | Create post |
+| GET | `/posts/search` | Search posts |
+| GET | `/posts/{post_id}` | Get post |
+| DELETE | `/posts/{post_id}` | Delete post |
+| GET | `/posts/{post_id}/comments` | Post comments |
+| POST | `/posts/{post_id}/comments` | Create comment |
+| GET | `/posts/{post_id}/og` | OG metadata (HTML) |
+| GET | `/comments` | List comments |
+| DELETE | `/comments/{comment_id}` | Delete comment |
+| PUT | `/votes` | Cast vote |
+| POST | `/images/upload` | Upload image |
+| GET | `/images/{key}` | Get image |
+
+### Cascade Control Plane — 47 Routes (in RG_Platform_Orchestration)
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| GET | `/health` | Health check |
+| GET | `/` | Dashboard UI |
+| GET | `/api/info` | Service info |
+| POST | `/api/analyze` | Analyze codebase |
+| GET | `/api/graph` | Dependency graph |
+| POST | `/api/unified/analyze` | Unified analysis |
+| GET | `/api/unified/full` | Full analysis |
+| GET | `/api/unified/broken` | Broken imports |
+| GET | `/api/unified/dead-code` | Dead code |
+| GET | `/api/unified/circular` | Circular deps |
+| GET | `/api/unified/pipelines` | Pipelines |
+| GET | `/api/unified/endpoints` | All endpoints |
+| GET | `/api/unified/service/{name}` | Per-service analysis |
+| GET | `/api/unified/health-report` | Health report |
+| GET | `/api/graph/services` | Service graph |
+| GET | `/api/graph/node/{id}` | Node details |
+| POST | `/api/impact` | Impact analysis |
+| POST | `/api/impact/batch` | Batch impact |
+| GET | `/api/protected` | Protected zones |
+| GET | `/api/protected/{zone}` | Zone details |
+| POST | `/api/ghost` | Create ghost mutation |
+| GET | `/api/ghost/{id}` | Get ghost mutation |
+| POST | `/api/ghost/{id}/apply` | Apply ghost mutation |
+| POST | `/api/validate` | Validate change |
+| POST | `/api/approve` | Approve change |
+| GET | `/api/history` | Mutation history |
+| POST | `/api/rollback` | Rollback mutation |
+| GET | `/api/agents/status` | Agent status |
+| GET | `/api/agents/alerts` | Agent alerts |
+| POST | `/api/agents/alerts/{id}/acknowledge` | Acknowledge alert |
+| POST | `/api/agents/alerts/{id}/resolve` | Resolve alert |
+| POST | `/api/agents/{name}/pause` | Pause agent |
+| POST | `/api/agents/{name}/resume` | Resume agent |
+| GET | `/api/isolation` | Isolation status |
+| POST | `/api/isolation/check` | Check isolation |
+| POST | `/api/isolation/fix-order` | Fix import order |
+| POST | `/api/snapshots` | Create snapshot |
+| GET | `/api/snapshots` | List snapshots |
+| POST | `/api/enforce` | Enforce boundaries |
+| GET | `/api/enforce/classify/{path}` | Classify file |
+| GET | `/api/enforce/boundaries` | Get boundaries |
+| POST | `/api/audit` | Run audit |
+| POST | `/api/self-healing/trigger` | Trigger self-healing |
+| GET | `/api/self-healing/status` | Self-healing status |
+| WS | `/ws/monitoring/{id}` | Monitoring WebSocket |
+| WS | `/ws/self-healing/{id}` | Self-healing WebSocket |
+| WS | `/ws/code-analysis/{id}` | Code analysis WebSocket |
+
 ---
 
 ## Frontend API Coverage Gap Analysis
@@ -606,60 +684,66 @@ State physics simulation, identity/memory/economic layers, entropy, galaxy simul
 | `github.ts` | `RGF_Code_Tools/api/github.ts` | ✅ |
 | `lsp.ts` | `RGF_Code_Tools/api/lsp.ts` | ✅ |
 
-### NOT Migrated (61 API files — need frontend work)
+### Recently Migrated (45 API files — batch 2, 2026-03-20)
+| Old File | Migrated To | Status |
+|----------|------------|--------|
+| `build.ts` | `RGF_Code_Tools/api/build.ts` | ✅ |
+| `projectBuilder.ts` | `RGF_Code_Tools/api/projectBuilder.ts` | ✅ |
+| `debugger.ts` | `RGF_Code_Tools/api/debugger.ts` | ✅ |
+| `terminal.ts` | `RGF_Code_Tools/api/terminal.ts` | ✅ |
+| `ideService.ts` | `RGF_Code_Tools/api/ideService.ts` | ✅ |
+| `ideComplete.ts` | `RGF_Code_Tools/api/ideComplete.ts` | ✅ |
+| `dashboard.ts` | `RGF_Dashboard/api/dashboard.ts` | ✅ |
+| `usage.ts` | `RGF_Dashboard/api/usage.ts` | ✅ |
+| `usageTracking.ts` | `RGF_Dashboard/api/usageTracking.ts` | ✅ |
+| `stripe.ts` | `RGF_Dashboard/api/stripe.ts` | ✅ |
+| `ownerDashboard.ts` | `RGF_Admin/api/ownerDashboard.ts` | ✅ |
+| `system.ts` | `RGF_Admin/api/system.ts` | ✅ |
+| `users.ts` | `RGF_Admin/api/users.ts` | ✅ |
+| `metrics.ts` | `RGF_Admin/api/metrics.ts` | ✅ |
+| `settings.ts` | `RGF_Settings/api/settings.ts` | ✅ |
+| `mfa.ts` | `RGF_Settings/api/mfa.ts` | ✅ |
+| `userApiKeys.ts` | `RGF_Settings/api/userApiKeys.ts` | ✅ |
+| `userPreferences.ts` | `RGF_Settings/api/userPreferences.ts` | ✅ |
+| `org.ts` | `RGF_Settings/api/org.ts` | ✅ |
+| `sso.ts` | `RGF_Auth/api/sso.ts` | ✅ |
+| `nft.ts` | `RGF_Marketplace/api/nft.ts` | ✅ |
+| `marketplaceComplete.ts` | `RGF_Marketplace/api/marketplaceComplete.ts` | ✅ |
+| `pricing.ts` | `RGF_Public/api/pricing.ts` | ✅ |
+| `notifications.ts` | `RGF_Shell/api/notifications.ts` | ✅ |
+| `apiHealthCheck.ts` | `RGF_Shell/api/apiHealthCheck.ts` | ✅ |
+| `websocket/client.ts` | `RGF_Shell/api/websocket/client.ts` | ✅ |
+| `websocket/index.ts` | `RGF_Shell/api/websocket/index.ts` | ✅ |
+| `memoryComplete.ts` | `RGF_Hash_Sphere/api/memoryComplete.ts` | ✅ |
+| `rag.ts` | `RGF_Hash_Sphere/api/rag.ts` | ✅ |
+| `cognitive.ts` | `RGF_Network/api/cognitive.ts` | ✅ |
+| `workflow.ts` | `RGF_Network/api/workflow.ts` | ✅ |
+| `workflowService.ts` | `RGF_Network/api/workflowService.ts` | ✅ |
+| `workflows.ts` | `RGF_Network/api/workflows.ts` | ✅ |
+| `contracts/agents.ts` | `RGF_Network/api/contracts/agents.ts` | ✅ |
+| `contracts/executions.ts` | `RGF_Network/api/contracts/executions.ts` | ✅ |
+| `contracts/index.ts` | `RGF_Network/api/contracts/index.ts` | ✅ |
+| `skills.ts` | `RGF_Agents/api/skills.ts` | ✅ |
+| `teams.ts` | `RGF_Agents/api/teams.ts` | ✅ |
+| `plugins.ts` | `RGF_Agents/api/plugins.ts` | ✅ |
+| `providers/*.ts` (10 files) | `RGF_Resonant_Chat/api/providers/` | ✅ |
 
-| Old File | Should Go To | Priority |
-|----------|-------------|----------|
-| `build.ts` | `RGF_Code_Tools` | 🔴 High |
-| `projectBuilder.ts` | `RGF_Code_Tools` | 🔴 High |
-| `debugger.ts` | `RGF_Code_Tools` | 🔴 High |
-| `terminal.ts` | `RGF_Code_Tools` | 🔴 High |
-| `ideService.ts` | `RGF_Code_Tools` | 🔴 High |
-| `ideComplete.ts` | `RGF_Code_Tools` | 🟡 Medium |
-| `dashboard.ts` | `RGF_Dashboard` | 🔴 High |
-| `usage.ts` | `RGF_Dashboard` | 🔴 High |
-| `usageTracking.ts` | `RGF_Dashboard` | 🟡 Medium |
-| `stripe.ts` | `RGF_Dashboard` | 🔴 High |
-| `ownerDashboard.ts` | `RGF_Admin` | 🔴 High |
-| `settings.ts` | `RGF_Settings` | 🔴 High |
-| `mfa.ts` | `RGF_Settings` or `RGF_Auth` | 🔴 High |
-| `sso.ts` | `RGF_Auth` | 🔴 High |
-| `userApiKeys.ts` | `RGF_Settings` | 🔴 High |
-| `userPreferences.ts` | `RGF_Settings` | 🔴 High |
-| `org.ts` | `RGF_Settings` | 🔴 High |
-| `users.ts` | `RGF_Admin` | 🟡 Medium |
-| `nft.ts` | `RGF_Marketplace` | 🔴 High |
-| `marketplaceComplete.ts` | `RGF_Marketplace` | 🟡 Medium |
-| `memoryComplete.ts` | `RGF_Hash_Sphere` | 🟡 Medium |
-| `notifications.ts` | `RGF_Shell` (global) | 🔴 High |
-| `skills.ts` | `RGF_Resonant_Chat` or `RGF_Agents` | 🟡 Medium |
-| `plugins.ts` | `RGF_Agents` | 🟢 Low |
-| `cognitive.ts` | `RGF_Network` | 🟡 Medium |
-| `workflow.ts` | `RGF_Network` | 🟡 Medium |
-| `workflowService.ts` | `RGF_Network` | 🟡 Medium |
-| `workflows.ts` | `RGF_Network` | 🟡 Medium |
-| `teams.ts` | `RGF_Agents` | 🟡 Medium |
-| `storage.ts` | Shared / `RGF_Shell` | 🟡 Medium |
-| `metrics.ts` | `RGF_Admin` | 🟡 Medium |
-| `system.ts` | `RGF_Admin` | 🟡 Medium |
-| `rag.ts` | `RGF_Hash_Sphere` | 🟡 Medium |
-| `pricing.ts` | `RGF_Public` | 🔴 High |
-| `contracts/agents.ts` | `RGF_Network` | 🟢 Low |
-| `contracts/executions.ts` | `RGF_Network` | 🟢 Low |
-| `contracts/index.ts` | `RGF_Network` | 🟢 Low |
-| `universe.ts` | `RGF_Hash_Sphere` | 🟢 Low |
-| `workspace.ts` | `RGF_Code_Tools` | 🟢 Low |
-| `fastapiClient.ts` | Shared / deprecated | 🟢 Low |
-| `apiHealthCheck.ts` | `RGF_Shell` | 🟢 Low |
-| `index.ts` | Shared barrel export | 🟢 Low |
-| `providers/*` (10 files) | `RGF_Resonant_Chat` or shared | 🟡 Medium |
-| `websocket/*` (2 files) | Shared / `RGF_Shell` | 🔴 High |
-| `hooks/*` (2 files) | Shared / `RGF_Shell` | 🟡 Medium |
+### Remaining (16 API files — low priority)
+
+| Old File | Should Go To | Priority | Notes |
+|----------|-------------|----------|-------|
+| `storage.ts` | `RGF_Settings` or shared | � Medium | File upload/download |
+| `universe.ts` | `RGF_Hash_Sphere` | 🟢 Low | Galaxy simulation |
+| `workspace.ts` | `RGF_Code_Tools` | 🟢 Low | IDE workspace |
+| `fastapiClient.ts` | Deprecated | 🟢 Low | Legacy API client |
+| `index.ts` | Barrel export | 🟢 Low | Re-export file |
+| `hooks/index.ts` | `RGF_Shell` | 🟡 Medium | React hooks barrel |
+| `hooks/useAgentsAPI.ts` | `RGF_Agents` | 🟡 Medium | Agent API hook |
 
 ### Summary
-- **🔴 High priority missing: 21 files** — core functionality broken without these
-- **🟡 Medium priority: 24 files** — secondary features
-- **🟢 Low priority: 16 files** — nice to have, some may be deprecated
+- **Total: 90 of 106 API files migrated** (85% complete)
+- **Remaining 16**: Low priority — utility files, hooks, deprecated clients
+- **All high-priority and medium-priority files migrated**
 
 ---
 
@@ -679,9 +763,11 @@ State physics simulation, identity/memory/economic layers, entropy, galaxy simul
 | `RGF_Agentic_Assistant` | 2 | Minor cleanup |
 | `RGF_Rabbit` | 1 | Minor cleanup |
 
-### Duplicate Token Definitions
-- `RGF_Shell/src/styles/global.css` **duplicates ALL tokens** from `RGF_Design_System/src/tokens/css-variables.css`
-- Should import from Design System instead of redefining
+### ~~Duplicate Token Definitions~~ — FIXED ✅
+- `RGF_Shell/src/styles/global.css` now imports from `RGF_Design_System/src/tokens/css-variables.css`
+- Single source of truth established
 
-### Missing: Mobile/Desktop Breakpoint System
-No centralized breakpoint tokens exist. Media queries are scattered (254 in RGF_Public alone). Need to add breakpoint tokens to Design System.
+### ~~Missing: Mobile/Desktop Breakpoint System~~ — FIXED ✅
+Breakpoint tokens added to Design System:
+- CSS: `--breakpoint-mobile: 480px`, `--breakpoint-tablet: 768px`, `--breakpoint-laptop: 1024px`, `--breakpoint-desktop: 1280px`, `--breakpoint-wide: 1536px`
+- TypeScript: `breakpoints` and `media` query helpers exported from `tokens/index.ts`
