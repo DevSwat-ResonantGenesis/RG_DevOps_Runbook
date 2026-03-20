@@ -26,9 +26,17 @@ The gateway runs on port 8000 (mapped to 8001 externally). Nginx proxies all `/a
 | `/rara/*` | `http://rg_internal_invarients_sim:8093/*` | Internal governance (RARA) |
 | `/state-physics/*` | `http://rg_users_invarients_sim:8091/*` | Hash Sphere state physics |
 
-### IDE Platform (standalone)
+### IDE Agent Service (standalone — `RG_Axtention_IDE`)
 | Route | Target | Service |
-|-------|--------|---------|
+|-------|--------|--------|
+| `/api/v1/ide/*` | `http://ide_agent_service:8000/api/v1/ide/*` | **All IDE AI routes** (SSE streaming proxy) |
+| `/api/v1/ide/agent-stream` | `http://ide_agent_service:8000/api/v1/ide/agent-stream` | Full agentic loop (SSE) |
+| `/api/v1/ide/agent-stream/{sid}/tool-results` | `http://ide_agent_service:8000/api/v1/ide/agent-stream/{sid}/tool-results` | Client posts tool execution results |
+| `/api/v1/ide/completions` | `http://ide_agent_service:8000/api/v1/ide/completions` | Single-turn LLM proxy (SSE) |
+
+### IDE Platform (standalone — `RG_IDE_Platform`)
+| Route | Target | Service |
+|-------|--------|--------|
 | `/terminal/*` | `http://ide_service:8080/terminal/*` | Terminal PTY sessions |
 | `/api/v1/ide/loc/*` | `http://ide_service:8080/loc/*` | LOC tracking |
 | `/api/v1/ide/updates/*` | `http://ide_service:8080/updates/*` | IDE auto-update checks |
@@ -51,9 +59,8 @@ The gateway runs on port 8000 (mapped to 8001 externally). Nginx proxies all `/a
 
 ### Chat (monolith)
 | Route | Target | Service |
-|-------|--------|---------|
+|-------|--------|--------|
 | `/resonant-chat/*` | `http://chat_service:8000/resonant-chat/*` | Resonant Chat (web) |
-| `/api/v1/ide/completions` | `http://chat_service:8000/ide/completions` | IDE LLM proxy (SSE) |
 
 ### Memory (monolith)
 | Route | Target | Service |
@@ -103,6 +110,7 @@ GATEWAY_BLOCKCHAIN_URL=http://blockchain_service:8000
 GATEWAY_NOTIFICATION_URL=http://notification_service:8000
 GATEWAY_CRYPTO_URL=http://crypto_service:8000
 GATEWAY_IDE_URL=http://ide_service:8080
+GATEWAY_IDE_AGENT_URL=http://ide_agent_service:8000
 GATEWAY_BUILD_URL=http://build_service:8003
 GATEWAY_CODE_EXECUTION_URL=http://code_execution_service:8002
 AGENTIC_CHAT_SERVICE_URL=http://rg_agentic_chat:8000
