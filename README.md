@@ -4,7 +4,8 @@
 
 [![Status: Production](https://img.shields.io/badge/Status-Production-brightgreen.svg)]()
 [![Containers: 37](https://img.shields.io/badge/Containers-37-blue.svg)]()
-[![Repos: 40](https://img.shields.io/badge/Repos-40-purple.svg)]()
+[![Repos: 57](https://img.shields.io/badge/Repos-57-purple.svg)]()
+[![Frontend: 17 Micro-Apps](https://img.shields.io/badge/Frontend-17%20Micro--Apps-orange.svg)]()
 [![License: RG Source Available](https://img.shields.io/badge/License-RG%20Source%20Available-blue.svg)](LICENSE.txt)
 
 Complete infrastructure documentation, deployment procedures, service catalog, database topology, and operational guides for the ResonantGenesis platform.
@@ -16,7 +17,8 @@ Complete infrastructure documentation, deployment procedures, service catalog, d
 | [SERVICE_CATALOG.md](SERVICE_CATALOG.md) | DevOps + Dev | All 37 containers — 100% standalone, zero monolith |
 | [INFRASTRUCTURE.md](INFRASTRUCTURE.md) | DevOps | Server specs, Nginx, Docker, networking, SSL, firewall |
 | [DATABASE.md](DATABASE.md) | DevOps + Dev | Database topology, connection strings, managed vs local DBs |
-| [REPOSITORIES.md](REPOSITORIES.md) | Dev | All 40 GitHub repos — fully decomposed architecture |
+| [REPOSITORIES.md](REPOSITORIES.md) | Dev | All 57 GitHub repos — backend + frontend micro-apps |
+| [API_CATALOG.md](API_CATALOG.md) | Dev | Complete backend API route inventory + frontend coverage map |
 | [DEPLOYMENT.md](DEPLOYMENT.md) | DevOps | Step-by-step deploy procedures for every service type |
 | [GATEWAY_ROUTES.md](GATEWAY_ROUTES.md) | Dev | Complete gateway proxy routing map |
 | [VOLUME_MOUNTS.md](VOLUME_MOUNTS.md) | DevOps | Shared modules — rg_llm, rg_tool_registry volume mounts |
@@ -59,8 +61,9 @@ DigitalOcean Droplet (134.199.221.149)
   │
   ├── Redis (shared_redis container, port 6379)
   │
-  └── Frontend (static build at /var/www/frontend/)
-        └── GitHub: genesis2026_frontend_production_2
+  └── Frontend
+        ├── Production: /var/www/frontend/ (monolith build)
+        └── Next-gen: 17 RGF_* micro-apps (Module Federation)
 ```
 
 ---

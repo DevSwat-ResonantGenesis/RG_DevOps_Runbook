@@ -91,12 +91,43 @@
 | [`RG_DevOps_Runbook`](https://github.com/DevSwat-ResonantGenesis/RG_DevOps_Runbook) | This repo — infrastructure documentation |
 | [`.github`](https://github.com/DevSwat-ResonantGenesis/.github) | Org profile README |
 
+### Frontend Micro-Apps (17 repos) — Module Federation Architecture
+
+| Repo | Port | Purpose |
+|------|------|---------|
+| [`RGF_Shell`](https://github.com/DevSwat-ResonantGenesis/RGF_Shell) | 3000 | Host app — layout, sidebar, topbar, routing, auth, theme |
+| [`RGF_Design_System`](https://github.com/DevSwat-ResonantGenesis/RGF_Design_System) | 3001 | Shared component library — tokens, Button, Input, Card, Badge, Modal |
+| [`RGF_Auth`](https://github.com/DevSwat-ResonantGenesis/RGF_Auth) | 3002 | Login, signup, OAuth, MFA, password reset |
+| [`RGF_Resonant_Chat`](https://github.com/DevSwat-ResonantGenesis/RGF_Resonant_Chat) | 3003 | Main chat interface (homepage) |
+| [`RGF_Agentic_Assistant`](https://github.com/DevSwat-ResonantGenesis/RGF_Agentic_Assistant) | 3004 | AI Assistant with tool execution |
+| [`RGF_Dashboard`](https://github.com/DevSwat-ResonantGenesis/RGF_Dashboard) | 3005 | User/Plus/Enterprise/Owner dashboards |
+| [`RGF_Agents`](https://github.com/DevSwat-ResonantGenesis/RGF_Agents) | 3006 | Agent OS, teams, creation, management |
+| [`RGF_Hash_Sphere`](https://github.com/DevSwat-ResonantGenesis/RGF_Hash_Sphere) | 3007 | 3D visualization, State Physics, memory map |
+| [`RGF_Marketplace`](https://github.com/DevSwat-ResonantGenesis/RGF_Marketplace) | 3008 | Agent marketplace, NFT, wallet |
+| [`RGF_Predictions`](https://github.com/DevSwat-ResonantGenesis/RGF_Predictions) | 3009 | Predictions engine, evidence graph, anchors |
+| [`RGF_Network`](https://github.com/DevSwat-ResonantGenesis/RGF_Network) | 3010 | Decentralized network, agent browser, workflows |
+| [`RGF_Protocol`](https://github.com/DevSwat-ResonantGenesis/RGF_Protocol) | 3011 | DSID-P protocol, control plane, governance |
+| [`RGF_Public`](https://github.com/DevSwat-ResonantGenesis/RGF_Public) | 3012 | Public pages — pricing, enterprise, community, help, API docs |
+| [`RGF_Settings`](https://github.com/DevSwat-ResonantGenesis/RGF_Settings) | 3013 | User settings, profile, organizations, API keys |
+| [`RGF_Admin`](https://github.com/DevSwat-ResonantGenesis/RGF_Admin) | 3014 | Admin tools, owner dashboard, ML ops, finance, audit |
+| [`RGF_Code_Tools`](https://github.com/DevSwat-ResonantGenesis/RGF_Code_Tools) | 3015 | Code visualizer, project builder, IDE page |
+| [`RGF_Rabbit`](https://github.com/DevSwat-ResonantGenesis/RGF_Rabbit) | 3016 | Reddit-like community platform |
+
+**Tech stack:** React 18 + TypeScript + Vite + Module Federation (`@originjs/vite-plugin-federation`). Each micro-app exposes `./App` as `remoteEntry.js`. Shell loads all remotes at runtime. Shared: react, react-dom, react-router-dom, zustand. Design System is single source of truth for tokens, components, and breakpoints.
+
 ## louienemesh Account (2 repos — legacy)
 
 | Repo | Purpose | Server Path |
 |------|---------|-------------|
 | [`genesis2026_production_backend_2`](https://github.com/louienemesh/genesis2026_production_backend_2) | **DEPRECATED** — all services extracted to RG_* repos. Kept for git history. | `/home/deploy/genesis2026_production_backend` (orchestration only) |
-| [`genesis2026_frontend_production_2`](https://github.com/louienemesh/genesis2026_frontend_production_2) | React frontend (Vite build) | `/home/deploy/genesis2026_frontend_production_2` |
+| [`genesis2026_frontend_production_2`](https://github.com/louienemesh/genesis2026_frontend_production_2) | React frontend monolith (Vite build) — being replaced by RGF_* micro-apps | `/home/deploy/genesis2026_frontend_production_2` |
+
+## Total Repository Count: 57
+
+- **40 backend repos** (DevSwat-ResonantGenesis)
+- **17 frontend micro-app repos** (DevSwat-ResonantGenesis/RGF_*)
+- **Backend monolith: FULLY DECOMPOSED** — all 37 containers from standalone repos
+- **Frontend: Migration in progress** — micro-apps created, pages + APIs migrated
 
 ## Monolith Status: FULLY DECOMPOSED
 
@@ -107,4 +138,6 @@
 1. **RG_Axtention_IDE** is the source of truth for the VS Code extension. Changes go there first, then sync to `RG_IDE/extensions/resonant-ai/`.
 2. **All RG_* repos** are the source of truth for their services. Never edit service code elsewhere.
 3. **RG_Platform_Orchestration** is the source of truth for docker-compose.unified.yml, nginx config, and deploy scripts.
-4. **Frontend**: Always `git push github main` (not origin) so the server can pull from GitHub.
+4. **RGF_Design_System** is the single source of truth for UI tokens (colors, spacing, breakpoints, typography), shared components, and Storybook. All micro-apps import from here.
+5. **Frontend monolith**: Always `git push github main` (not origin) so the server can pull from GitHub.
+6. **API coverage**: See `API_CATALOG.md` for the complete backend→frontend endpoint mapping.
