@@ -798,3 +798,26 @@ Measured `var()` token adoption vs raw hex colors per module:
 | `RGF_Public` | 63 | 1036 | 🟡 Acceptable (brand colors) |
 
 **Note:** Remaining hex colors are primarily gradient stops, rgba() backgrounds, and intentional brand colors that don't map to semantic tokens.
+
+### Shared Utility Duplication ⚠️
+6 files are **identically duplicated across all 15 RGF_* micro-apps** (90 total copies):
+
+| File | Location | Purpose |
+|------|----------|---------|
+| `src/utils/logger.ts` | 15 copies | Console logger wrapper |
+| `src/utils/errorConstants.ts` | 15 copies | Error code constants |
+| `src/utils/auth-cookies.ts` | 15 copies | Auth cookie helpers |
+| `src/utils/apiUrl.ts` | 15 copies | API base URL resolver |
+| `src/utils/apiErrorHandler.ts` | 15 copies | Axios error handler |
+| `src/api/client.ts` | 15 copies | Axios instance factory |
+
+**Status:** All copies are byte-identical (no drift). No functional issue.
+**Recommendation:** Extract into a shared package (`@rg/shared-utils`) exposed via Module Federation or published as an internal npm package. This eliminates 84 redundant files and ensures future changes propagate automatically.
+
+### Component Duplication — CLEAN ✅
+No duplicate React components found across RGF_* modules. All shared components live exclusively in `RGF_Design_System`.
+
+### Design System Token Architecture — CORRECT ✅
+- `RGF_Shell` imports `RGF_Design_System/src/tokens/css-variables.css` at `:root`
+- All 15 micro-apps inherit tokens via CSS cascade (Module Federation pattern)
+- No module needs a direct import — Shell provides the global token layer
