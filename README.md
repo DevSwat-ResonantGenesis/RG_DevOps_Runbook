@@ -4,7 +4,7 @@
 
 [![Status: Production](https://img.shields.io/badge/Status-Production-brightgreen.svg)]()
 [![Containers: 37](https://img.shields.io/badge/Containers-37-blue.svg)]()
-[![Repos: 13](https://img.shields.io/badge/Repos-13-purple.svg)]()
+[![Repos: 29](https://img.shields.io/badge/Repos-29-purple.svg)]()
 [![License: RG Source Available](https://img.shields.io/badge/License-RG%20Source%20Available-blue.svg)](LICENSE.txt)
 
 Complete infrastructure documentation, deployment procedures, service catalog, database topology, and operational guides for the ResonantGenesis platform.
@@ -13,10 +13,10 @@ Complete infrastructure documentation, deployment procedures, service catalog, d
 
 | Document | Audience | Description |
 |----------|----------|-------------|
-| [SERVICE_CATALOG.md](SERVICE_CATALOG.md) | DevOps + Dev | All 37 containers — ports, health, build contexts, dependencies |
+| [SERVICE_CATALOG.md](SERVICE_CATALOG.md) | DevOps + Dev | All 37 containers — 24 standalone + 9 monolith + infra |
 | [INFRASTRUCTURE.md](INFRASTRUCTURE.md) | DevOps | Server specs, Nginx, Docker, networking, SSL, firewall |
 | [DATABASE.md](DATABASE.md) | DevOps + Dev | Database topology, connection strings, managed vs local DBs |
-| [REPOSITORIES.md](REPOSITORIES.md) | Dev | All 13 GitHub repos — what's standalone, what's in the monolith |
+| [REPOSITORIES.md](REPOSITORIES.md) | Dev | All 29 GitHub repos — what's standalone, what's in the monolith |
 | [DEPLOYMENT.md](DEPLOYMENT.md) | DevOps | Step-by-step deploy procedures for every service type |
 | [GATEWAY_ROUTES.md](GATEWAY_ROUTES.md) | Dev | Complete gateway proxy routing map |
 | [VOLUME_MOUNTS.md](VOLUME_MOUNTS.md) | DevOps | Shared modules — rg_llm, rg_tool_registry volume mounts |
@@ -50,8 +50,8 @@ DigitalOcean Droplet (134.199.221.149)
   │     └── /resonant-chat/* → gateway:8001
   │
   ├── Gateway (port 8001 external, 8000 internal)
-  │     ├── Monolith services (14 services, build from ./*)
-  │     ├── Standalone services (8 services, build from /home/deploy/RG_*)
+  │     ├── Monolith services (9 core, build from ./*)
+  │     ├── Standalone services (24 services, build from /home/deploy/RG_*)
   │     └── Shared modules (rg_llm, rg_tool_registry via volume mounts)
   │
   ├── PostgreSQL (DigitalOcean Managed — external)
