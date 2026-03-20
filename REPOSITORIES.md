@@ -85,8 +85,8 @@
 
 | Repo | Type |
 |------|------|
-| [`RG_IDE`](https://github.com/DevSwat-ResonantGenesis/RG_IDE) | VS Code fork (Electron desktop app) |
-| [`RG_Axtention_IDE`](https://github.com/DevSwat-ResonantGenesis/RG_Axtention_IDE) | VS Code extension (source of truth) |
+| [`RG_IDE`](https://github.com/DevSwat-ResonantGenesis/RG_IDE) | VS Code fork — thin client (UI, auth, tool executor, LLM discovery). No orchestration intelligence. Public repo, clean single-commit history. |
+| [`RG_Axtention_IDE`](https://github.com/DevSwat-ResonantGenesis/RG_Axtention_IDE) | Server-side IDE orchestration (system prompts, tool selection, agentic loop, LLM calls). Runs as `ide_agent_service` container. Private repo. |
 | [`RG_Platform_Orchestration`](https://github.com/DevSwat-ResonantGenesis/RG_Platform_Orchestration) | docker-compose, Nginx, deploy scripts, infrastructure config |
 | [`RG_DevOps_Runbook`](https://github.com/DevSwat-ResonantGenesis/RG_DevOps_Runbook) | This repo — infrastructure documentation |
 | [`.github`](https://github.com/DevSwat-ResonantGenesis/.github) | Org profile README |
@@ -135,7 +135,7 @@
 
 ## Source of Truth Rules
 
-1. **RG_Axtention_IDE** is the source of truth for the VS Code extension. Changes go there first, then sync to `RG_IDE/extensions/resonant-ai/`.
+1. **RG_Axtention_IDE** is the source of truth for IDE orchestration intelligence (system prompts, tool selection, agentic loop). **RG_IDE** is the source of truth for the thin client (UI, auth, tool executor, LLM discovery). These are independent — RG_IDE is public, RG_Axtention_IDE is private.
 2. **All RG_* repos** are the source of truth for their services. Never edit service code elsewhere.
 3. **RG_Platform_Orchestration** is the source of truth for docker-compose.unified.yml, nginx config, and deploy scripts.
 4. **RGF_Design_System** is the single source of truth for UI tokens (colors, spacing, breakpoints, typography), shared components, and Storybook. All micro-apps import from here.

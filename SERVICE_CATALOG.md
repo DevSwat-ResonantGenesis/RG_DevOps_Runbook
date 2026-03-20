@@ -28,6 +28,8 @@
 | `ide_platform_service` | 8080 | `/home/deploy/RG_IDE_Platform` | [`RG_IDE_Platform`](https://github.com/DevSwat-ResonantGenesis/RG_IDE_Platform) |
 | `ide_agent_service` | 8000 | `/home/deploy/RG_Axtention_IDE` | [`RG_Axtention_IDE`](https://github.com/DevSwat-ResonantGenesis/RG_Axtention_IDE) |
 
+> **IDE Architecture**: The desktop app ([`RG_IDE`](https://github.com/DevSwat-ResonantGenesis/RG_IDE)) is a VS Code fork acting as a **thin client** — it renders UI, executes tools locally, and discovers local LLMs (Ollama). All orchestration intelligence (system prompts, tool selection, agentic loop) runs in `ide_agent_service` via SSE at `/api/v1/ide/agent-stream`. RG_IDE is public; RG_Axtention_IDE is private.
+
 ### Rabbit (Community Platform)
 
 | Container | Port | Build Context | GitHub Repo |

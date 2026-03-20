@@ -102,7 +102,7 @@ ssh deploy@134.199.221.149
 cd /home/deploy/genesis2026_production_backend
 
 # Pull all standalone repos
-for repo in RG_Registered_Users_Agentic_Chat RG_Public-Guest-Agentic_Chat RG_AST_analysis RG_Internal_Invarients_SIM RG_Users_Invarients_SIM RG_IDE_Platform RG_Rabbit RG_UnifiedLLMClient RG_Unified_Tool_Registry; do
+for repo in RG_Registered_Users_Agentic_Chat RG_Public-Guest-Agentic_Chat RG_AST_analysis RG_Internal_Invarients_SIM RG_Users_Invarients_SIM RG_IDE_Platform RG_Axtention_IDE RG_Rabbit RG_UnifiedLLMClient RG_Unified_Tool_Registry; do
   echo "Pulling $repo..."
   cd /home/deploy/$repo && git pull origin main
 done
