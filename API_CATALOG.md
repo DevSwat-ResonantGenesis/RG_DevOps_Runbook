@@ -749,19 +749,26 @@ State physics simulation, identity/memory/economic layers, entropy, galaxy simul
 
 ## Design System Issues
 
-### `!important` Overrides (165 total)
-| Module | Count | Action Needed |
-|--------|-------|---------------|
-| `RGF_Code_Tools` | 58 | Refactor to use specificity or CSS modules |
-| `RGF_Public` | 53 | Refactor to use Design System tokens |
-| `RGF_Resonant_Chat` | 20 | Remove overrides, use Design System |
-| `RGF_Hash_Sphere` | 9 | Minor cleanup |
-| `RGF_Settings` | 7 | Minor cleanup |
-| `RGF_Marketplace` | 7 | Minor cleanup |
-| `RGF_Network` | 5 | Minor cleanup |
-| `RGF_Protocol` | 3 | Minor cleanup |
-| `RGF_Agentic_Assistant` | 2 | Minor cleanup |
-| `RGF_Rabbit` | 1 | Minor cleanup |
+### `!important` Overrides — REFACTORED ✅
+**Before: 165 total → After: 68 total** (97 removed, 59% reduction)
+
+Removed 97 unnecessary `!important` overrides using doubled-class selectors for specificity:
+- `RGF_Public`: 53 → 0 ✅ (investor pitch deck light-mode + help center search)
+- `RGF_Resonant_Chat`: 19 → 4 ✅ (selected messages, stop button, active state, split view)
+- `RGF_Settings`: 7 → 0 ✅ (heatmap levels, tab active)
+- `RGF_Marketplace`: 7 → 0 ✅ (tab/pill/sort active states)
+- `RGF_Network`: 5 → 0 ✅ (pill/sort active states)
+- `RGF_Protocol`: 3 → 0 ✅ (notice, flagged/blocked counts)
+- `RGF_Hash_Sphere`: 9 → 4 ✅ (warnings fixed; canvas sizing legitimate)
+- `RGF_Rabbit`: 1 → 0 ✅ (danger button hover)
+
+**Remaining 68 — all legitimate (cannot be removed):**
+| Module | Count | Reason |
+|--------|-------|--------|
+| `RGF_Code_Tools` | 58 | Monaco editor theme tokens (22) + IDE fullscreen takeover (36) |
+| `RGF_Hash_Sphere` | 4 | Three.js canvas sizing (`> *` child selector) |
+| `RGF_Resonant_Chat` | 4 | Three.js canvas sizing (`.chatParallax > *`) |
+| `RGF_Agentic_Assistant` | 2 | Scrollbar 1px hiding (browser defaults) |
 
 ### ~~Duplicate Token Definitions~~ — FIXED ✅
 - `RGF_Shell/src/styles/global.css` now imports from `RGF_Design_System/src/tokens/css-variables.css`
