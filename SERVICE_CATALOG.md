@@ -2,9 +2,9 @@
 
 > Complete list of all 37 Docker containers running on production (as of 2026-03-20).
 
-## Standalone Services (24) — Built from `/home/deploy/RG_*`
+## All Services (36 containers) — Built from `/home/deploy/RG_*`
 
-All extracted from the monolith into their own GitHub repos under [DevSwat-ResonantGenesis](https://github.com/DevSwat-ResonantGenesis).
+**Monolith fully decomposed** — every service now builds from its own standalone GitHub repo under [DevSwat-ResonantGenesis](https://github.com/DevSwat-ResonantGenesis).
 
 ### Chat & AI Services
 
@@ -63,21 +63,19 @@ All extracted from the monolith into their own GitHub repos under [DevSwat-Reson
 | `openclaw_service` | 8000 | `/home/deploy/RG_OpenClaw` | [`RG_OpenClaw`](https://github.com/DevSwat-ResonantGenesis/RG_OpenClaw) |
 | `discord_bridge` | — | `/home/deploy/RG_Discord_Bridge` | [`RG_Discord_Bridge`](https://github.com/DevSwat-ResonantGenesis/RG_Discord_Bridge) |
 
-## Monolith Services (9) — Built from `./service_name`
+### Core Platform Services (extracted 2026-03-20)
 
-These remain inside `genesis2026_production_backend` (core/coupled services).
-
-| Container | Port | Build Context | Purpose |
-|-----------|------|---------------|---------|
-| `gateway` | 8000 (→8001 external) | `./gateway` | API gateway — routes all requests to backend services |
-| `auth_service` | 8000 | `./auth_service` | Authentication, JWT, BYOK key management, user roles |
-| `chat_service` | 8000 | `./chat_service` | Resonant Chat, IDE completions, streaming, resonance pipeline |
-| `memory_service` | 8000 | `./memory_service` | Conversation memory, Hash Sphere ingestion |
-| `agent_engine_service` | 8000 | `./agent_engine_service` | Agent planner, executor, autonomous agents, teams |
-| `user_service` | 8000 | `./user_service` | User profiles, preferences, organizations |
-| `billing_service` | 8000 | `./billing_service` | Stripe integration, subscriptions, usage tracking |
-| `llm_service` | 8000 | `./llm_service` | Legacy LLM routing (being replaced by rg_llm) |
-| `blockchain_node` | 8081 | `./node` | Blockchain node (exposed externally) |
+| Container | Port | Build Context | GitHub Repo |
+|-----------|------|---------------|-------------|
+| `gateway` | 8000 (→8001 ext) | `/home/deploy/RG_Gateway` | [`RG_Gateway`](https://github.com/DevSwat-ResonantGenesis/RG_Gateway) |
+| `auth_service` | 8000 | `/home/deploy/RG_Auth` | [`RG_Auth`](https://github.com/DevSwat-ResonantGenesis/RG_Auth) |
+| `chat_service` | 8000 | `/home/deploy/RG_Chat` | [`RG_Chat`](https://github.com/DevSwat-ResonantGenesis/RG_Chat) |
+| `memory_service` | 8000 | `/home/deploy/RG_Memory` | [`RG_Memory`](https://github.com/DevSwat-ResonantGenesis/RG_Memory) |
+| `agent_engine_service` | 8000 | `/home/deploy/RG_Agent_Engine` | [`RG_Agent_Engine`](https://github.com/DevSwat-ResonantGenesis/RG_Agent_Engine) |
+| `user_service` | 8000 | `/home/deploy/RG_User_Service` | [`RG_User_Service`](https://github.com/DevSwat-ResonantGenesis/RG_User_Service) |
+| `billing_service` | 8000 | `/home/deploy/RG_Billing` | [`RG_Billing`](https://github.com/DevSwat-ResonantGenesis/RG_Billing) |
+| `llm_service` | 8000 | `/home/deploy/RG_LLM_Service` | [`RG_LLM_Service`](https://github.com/DevSwat-ResonantGenesis/RG_LLM_Service) |
+| `blockchain_node` | 8081 | `/home/deploy/RG_Blockchain_Node` | [`RG_Blockchain_Node`](https://github.com/DevSwat-ResonantGenesis/RG_Blockchain_Node) |
 
 ## Infrastructure (not a service)
 
@@ -91,9 +89,8 @@ These remain inside `genesis2026_production_backend` (core/coupled services).
 |--------|-------------|-------------|---------|
 | `rg_llm` | `/home/deploy/RG_UnifiedLLMClient/src/rg_llm` | `/app/rg_llm:ro` | `agent_engine_service`, `chat_service`, `rg_agentic_chat`, `rg_public_guest_chat` |
 | `rg_tool_registry` | `/home/deploy/RG_Unified_Tool_Registry/rg_tool_registry` | `/app/rg_tool_registry:ro` | `agent_engine_service`, `rg_agentic_chat` |
+| `platform_tools` | `/home/deploy/RG_Platform_Tools` | `/app/platform_tools:ro` | `agent_engine_service`, `chat_service` |
 
-## Deleted from Monolith (all now standalone)
+## Orchestration
 
-All 24 service directories were **deleted** from `genesis2026_production_backend` and replaced by standalone repos. Build contexts in `docker-compose.unified.yml` now point to `/home/deploy/RG_*` paths.
-
-> **Note**: `routers_public_chat.py` and `routers_agentic_chat.py` were also removed from `agent_engine_service` — replaced by standalone `rg_public_guest_chat` and `rg_agentic_chat`.
+The master `docker-compose.unified.yml` and deployment scripts now live in [`RG_Platform_Orchestration`](https://github.com/DevSwat-ResonantGenesis/RG_Platform_Orchestration). The old `genesis2026_production_backend` monolith is **fully deprecated** — all service code extracted to standalone repos.
