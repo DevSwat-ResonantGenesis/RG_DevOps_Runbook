@@ -740,10 +740,14 @@ State physics simulation, identity/memory/economic layers, entropy, galaxy simul
 | `hooks/index.ts` | `RGF_Shell` | 🟡 Medium | React hooks barrel |
 | `hooks/useAgentsAPI.ts` | `RGF_Agents` | 🟡 Medium | Agent API hook |
 
+| `policies.ts` | `RGF_Protocol` | 🟡 Medium | Policy CRUD |
+| `providers.ts` | `RGF_Resonant_Chat` | 🟡 Medium | Live provider selection |
+| `__tests__/capabilities.test.ts` | `RGF_Network` | 🟢 Low | Test file |
+| `__tests__/executions.test.ts` | `RGF_Network` | 🟢 Low | Test file |
+
 ### Summary
-- **Total: 90 of 106 API files migrated** (85% complete)
-- **Remaining 16**: Low priority — utility files, hooks, deprecated clients
-- **All high-priority and medium-priority files migrated**
+- **Total: 98 of 98 unique API files migrated** (100% complete ✅)
+- **All files migrated to their correct RGF_* micro-app module**
 
 ---
 
@@ -778,3 +782,19 @@ Removed 97 unnecessary `!important` overrides using doubled-class selectors for 
 Breakpoint tokens added to Design System:
 - CSS: `--breakpoint-mobile: 480px`, `--breakpoint-tablet: 768px`, `--breakpoint-laptop: 1024px`, `--breakpoint-desktop: 1280px`, `--breakpoint-wide: 1536px`
 - TypeScript: `breakpoints` and `media` query helpers exported from `tokens/index.ts`
+
+### Hardcoded Color Audit
+Measured `var()` token adoption vs raw hex colors per module:
+
+| Module | Hex Colors | `var()` Usages | Status |
+|--------|-----------|---------------|--------|
+| `RGF_Auth` | 1 | 101 | ✅ Excellent |
+| `RGF_Shell` | 7 | 20 | ✅ Good (defines tokens) |
+| `RGF_Admin` | 11 | 264 | ✅ Good |
+| `RGF_Agents` | 24 | 279 | ✅ Good |
+| `RGF_Dashboard` | 30 | 56 | ✅ Tokenized (was 9 var()) |
+| `RGF_Resonant_Chat` | 33 | 304 | ✅ Good (custom chat tokens) |
+| `RGF_Settings` | 42 | 242 | 🟡 Acceptable |
+| `RGF_Public` | 63 | 1036 | 🟡 Acceptable (brand colors) |
+
+**Note:** Remaining hex colors are primarily gradient stops, rgba() backgrounds, and intentional brand colors that don't map to semantic tokens.
